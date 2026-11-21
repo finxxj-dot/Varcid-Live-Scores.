@@ -1,45 +1,549 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VARCID SOCCER</title>
 
 <style>
+:root {
+  --red: #FF0014;
+  --bg: #080b14;
+  --panel: #111827;
+  --panel2: #172033;
+  --border: #293247;
+  --muted: #929bad;
+  --white: #f5f7fb;
+}
 
-*{box-sizing:border-box}
+* { box-sizing: border-box; }
 
-body{margin:0;background:#080b14;color:white;font-family:Arial,sans-serif}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--white);
+  font-family: Arial, sans-serif;
+}
 
-header{padding:22px;background:#111827;border-bottom:2px solid #ff0014}
+button, input { font: inherit; }
 
-.logo{font-size:25px;font-weight:900;letter-spacing:2px}
+button {
+  cursor: pointer;
+  color: white;
+}
 
-.logo span{color:#ff0014}
+.layout {
+  display: grid;
+  grid-template-columns: 235px minmax(0, 1fr);
+  min-height: 100vh;
+}
 
-.muted{color:#929bad;font-size:13px}
+.sidebar {
+  background: #0d1422;
+  border-right: 1px solid var(--border);
+  padding: 24px 15px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
 
-nav{display:flex;gap:8px;padding:12px;background:#0c1220;overflow-x:auto}
+.logo {
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin: 8px 10px 35px;
+}
 
-button{cursor:pointer}
+.logo span { color: var(--red); }
 
-nav button{background:#171f30;color:white;border:1px solid #293247;padding:12px;border-radius:9px;white-space:nowrap}
+.side-label {
+  color: var(--muted);
+  font-size: 11px;
+  margin: 24px 10px 10px;
+  letter-spacing: 1.5px;
+}
 
-nav button.active,.action{background:#ff0014;color:white;border-color:#ff0014}
+.nav-btn {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 13px;
+  border-radius: 9px;
+  margin: 3px 0;
+  color: #c5cede;
+}
 
-main{max-width:1000px;margin:auto;padding:16px}
+.nav-btn:hover, .nav-btn.active {
+  background: #292033;
+  color: white;
+}
 
-.page{display:none}
+.nav-btn.active {
+  border-left: 3px solid var(--red);
+}
 
-.page.active{display:block}
+.main { min-width: 0; }
 
-.card{background:#111827;border:1px solid #293247;border-radius:14px;padding:17px;margin-bottom:15px}
+.topbar {
+  height: 75px;
+  background: #0d1422;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  gap: 15px;
+}
 
-h2{font-size:19px}
+.top-title { font-size: 19px; font-weight: bold; }
 
-.grid{display:grid;grid-template-columns
+.status {
+  color: #36d99b;
+  font-size: 12px;
+}
+
+.search {
+  background: var(--panel2);
+  color: white;
+  border: 1px solid var(--border);
+  padding: 11px 14px;
+  border-radius: 9px;
+  width: min(280px, 40%);
+  outline: none;
+}
+
+.search:focus { border-color: var(--red); }
+
+.content {
+  max-width: 1500px;
+  padding: 27px;
+  margin: auto;
+}
+
+.welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+h1 { font-size: 27px; margin: 0 0 8px; }
+h2 { font-size: 18px; margin: 0 0 17px; }
+.muted { color: var(--muted); font-size: 13px; }
+
+.demo {
+  color: #ffcc66;
+  background: #352914;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 19px;
+}
+
+.stat-number {
+  font-size: 27px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.red { color: var(--red); }
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(240px, 0.8fr);
+  gap: 18px;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 17px;
+}
+
+.filter {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+}
+
+.filter.active, .action.active {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.match {
+  background: #151e2e;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 11px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.match:hover {
+  border-color: var(--red);
+  transform: translateY(-2px);
+}
+
+.match-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.teams {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  font-weight: bold;
+}
+
+.team:last-child { text-align: right; }
+
+.score { font-size: 21px; text-align: center; }
+
+.match-bottom {
+  border-top: 1px solid var(--border);
+  margin-top: 14px;
+  padding-top: 11px;
+  color: var(--muted);
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.live { color: #ff5360; }
+
+.action {
+  border: 1px solid var(--border);
+  background: var(--panel2);
+  padding: 10px 13px;
+  border-radius: 8px;
+  margin: 3px;
+  font-size: 12px;
+}
+
+.league {
+  padding: 13px 10px;
+  border-bottom: 1px solid var(--border);
+  color: #dce3ef;
+  font-size: 13px;
+}
+
+.league:last-child { border: 0; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+.detail {
+  margin-top: 16px;
+  display: none;
+}
+
+.detail.show { display: block; }
+
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 35px 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media(max-width: 900px) {
+  .layout { grid-template-columns: 185px minmax(0,1fr); }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .content { padding: 18px; }
+}
+
+@media(max-width: 600px) {
+  .layout { display: block; }
+  .sidebar {
+    position: static;
+    height: auto;
+    padding: 12px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { margin: 5px 8px 12px; }
+  .side-label { display: none; }
+  .nav-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 5px;
+  }
+  .nav-btn {
+    width: auto;
+    white-space: nowrap;
+    padding: 10px;
+  }
+  .topbar { height: auto; padding: 14px; flex-wrap: wrap; }
+  .search { width: 100%; }
+  .content { padding: 14px; }
+  h1 { font-size: 22px; }
+  .welcome { align-items: flex-start; flex-direction: column; }
+  .stats { gap: 9px; }
+  .card { padding: 13px; }
+  .stat-number { font-size: 22px; }
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="logo">VARCID <span>SOCCER</span></div>
+  <div class="side-label">MAIN MENU</div>
+
+  <div class="nav-list">
+    <button class="nav-btn active" data-page="dashboard">⌂ Dashboard</button>
+    <button class="nav-btn" data-page="matches">⚽ Matches</button>
+    <button class="nav-btn" data-page="watch">▶ Watch</button>
+    <button class="nav-btn" data-page="leagues">🏆 Leagues</button>
+    <button class="nav-btn" data-page="tables">▤ Tables</button>
+    <button class="nav-btn" data-page="news">▣ News</button>
+  </div>
+
+  <div class="side-label">SYSTEM</div>
+  <div class="muted" style="padding:10px">VARCID v3.0.0</div>
+  <div class="muted" style="padding:10px">● Interface online</div>
+</aside>
+
+<div class="main">
+<header class="topbar">
+  <div class="top-title">MATCH CENTER <span class="red">/</span></div>
+  <input id="search" class="search" placeholder="Search teams or competitions...">
+  <div class="status">● DEMO MODE</div>
+</header>
+
+<main class="content">
+
+<section id="dashboard" class="page active">
+  <div class="welcome">
+    <div>
+      <h1>Welcome to VARCID.</h1>
+      <div class="muted">Your soccer command center.</div>
+    </div>
+    <div class="demo">DEMO DATA — NOT LIVE SCORES</div>
+  </div>
+
+  <div class="stats">
+    <div class="card">
+      <div class="muted">Live matches</div>
+      <div class="stat-number red">--</div>
+    </div>
+    <div class="card">
+      <div class="muted">Competitions</div>
+      <div class="stat-number">Worldwide</div>
+    </div>
+    <div class="card">
+      <div class="muted">Match coverage</div>
+      <div class="stat-number">API</div>
+    </div>
+    <div class="card">
+      <div class="muted">System status</div>
+      <div class="stat-number" style="color:#36d99b">Ready</div>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="card">
+      <div class="section-head">
+        <h2>Match Center</h2>
+        <button class="action" onclick="showPage('matches')">All matches →</button>
+      </div>
+      <div id="dashboardMatches"></div>
+    </div>
+
+    <div class="card">
+      <h2>Competitions</h2>
+      <div class="league">🏴 Premier League</div>
+      <div class="league">🇪🇸 La Liga</div>
+      <div class="league">🇩🇪 Bundesliga</div>
+      <div class="league">🇮🇹 Serie A</div>
+      <div class="league">🇫🇷 Ligue 1</div>
+      <div class="league">🇲🇽 Liga MX</div>
+      <div class="league">🌎 Champions League</div>
+      <button class="action" onclick="showPage('leagues')">Explore leagues →</button>
+    </div>
+  </div>
+</section>
+
+<section id="matches" class="page">
+  <h1>Match Center</h1>
+  <p class="muted">Browse matches and open a match for details.</p>
+  <div style="margin:18px 0">
+    <button class="action active" onclick="filterMatches('All',this)">All</button>
+    <button class="action" onclick="filterMatches('Premier League',this)">Premier League</button>
+    <button class="action" onclick="filterMatches('La Liga',this)">La Liga</button>
+    <button class="action" onclick="filterMatches('Liga MX',this)">Liga MX</button>
+  </div>
+  <div id="allMatches"></div>
+  <div id="matchDetail" class="card detail">
+    <h2 id="detailTitle">Match details</h2>
+    <p class="muted">Demo match information. Live events, lineups and statistics will appear after API connection.</p>
+    <button class="action" onclick="closeDetail()">Close details</button>
+  </div>
+</section>
+
+<section id="watch" class="page">
+  <h1>Watch Center</h1>
+  <div class="card">
+    <h2>Where to watch</h2>
+    <p class="muted">Find official US broadcasters and legal streaming options for soccer matches.</p>
+    <p>Streaming information will be added after match data is connected.</p>
+  </div>
+</section>
+
+<section id="leagues" class="page">
+  <h1>League Directory</h1>
+  <p class="muted">Competition coverage will be populated from the soccer API.</p>
+  <div class="card" id="leagueDirectory"></div>
+</section>
+
+<section id="tables" class="page">
+  <h1>League Tables</h1>
+  <div class="card">
+    <p class="muted">Standings will appear here after the API is connected.</p>
+  </div>
+</section>
+
+<section id="news" class="page">
+  <h1>Soccer News</h1>
+  <div class="card">
+    <p class="muted">News and updates section. No live news feed is connected yet.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>VARCID SOCCER © 2026 · Soccer Command Center</footer>
+</div>
+</div>
+
+<script>
+const matches = [
+  {league:"Premier League",home:"Arsenal",away:"Chelsea",score:"2 - 1",status:"DEMO"},
+  {league:"La Liga",home:"Real Madrid",away:"Barcelona",score:"1 - 1",status:"DEMO"},
+  {league:"Liga MX",home:"Club América",away:"Tigres",score:"0 - 0",status:"DEMO"},
+  {league:"Bundesliga",home:"Bayern Munich",away:"Dortmund",score:"3 - 2",status:"DEMO"},
+  {league:"Serie A",home:"Inter Milan",away:"Juventus",score:"1 - 0",status:"DEMO"}
+];
+
+function makeMatch(m) {
+  return `
+    <div class="match" onclick="openDetail('${m.home}','${m.away}')">
+      <div class="match-top">
+        <span>${m.league}</span>
+        <span class="live">${m.status}</span>
+      </div>
+      <div class="teams">
+        <div class="team">${m.home}</div>
+        <div class="score">${m.score}</div>
+        <div class="team">${m.away}</div>
+      </div>
+      <div class="match-bottom">
+        <span>Sample fixture</span>
+        <span>View details →</span>
+      </div>
+    </div>`;
+}
+
+function renderMatches(list) {
+  const html = list.length
+    ? list.map(makeMatch).join("")
+    : '<div class="empty">No matching demo fixtures.</div>';
+
+  document.getElementById("allMatches").innerHTML = html;
+  document.getElementById("dashboardMatches").innerHTML =
+    list.slice(0,3).map(makeMatch).join("");
+}
+
+function filterMatches(league, button) {
+  document.querySelectorAll("#matches .action").forEach(b => b.classList.remove("active"));
+  button.classList.add("active");
+  renderMatches(league === "All" ? matches : matches.filter(m => m.league === league));
+}
+
+function openDetail(home, away) {
+  const box = document.getElementById("matchDetail");
+  document.getElementById("detailTitle").textContent = home + " vs " + away;
+  box.classList.add("show");
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function closeDetail() {
+  document.getElementById("matchDetail").classList.remove("show");
+}
+
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".nav-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.page === id);
+  });
+
+  if(id === "matches") renderMatches(matches);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll(".nav-btn").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+document.getElementById("search").addEventListener("input", function() {
+  const q = this.value.toLowerCase();
+  const filtered = matches.filter(m =>
+    [m.home,m.away,m.league].some(v => v.toLowerCase().includes(q))
+  );
+  renderMatches(filtered);
+  showPage("matches");
+});
+
+const leagues = [
+  "Premier League","La Liga","Bundesliga","Serie A","Ligue 1",
+  "Liga MX","MLS","USL Championship","English National League",
+  "UEFA Champions League","UEFA Europa League",
+  "UEFA Conference League","CONCACAF Champions Cup",
+  "CONCACAF Gold Cup","Nations League","FIFA World Cup",
+  "NWSL","Women's Champions League"
+];
+
+document.getElementById("leagueDirectory").innerHTML =
+  leagues.map(l => `<div class="league">🏆 ${l}</div>`).join("");
+
+renderMatches(matches);
+</script>
+</body>
+</html>
